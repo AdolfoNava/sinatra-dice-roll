@@ -23,6 +23,7 @@ get("/giraffe") do
 end
 
 get("/dicemenu")do
+=begin
   "<style>
   .navbar {
     display: flex;
@@ -43,101 +44,61 @@ get("/dicemenu")do
     <li><a href='/dice/1/20'>Roll one 20-sided dice</a></li>
     <li><a href='/dice/5/4'>Roll five 4-sided dice</a></li>
   </ul>"
+=end
+    erb(:dicemenu,{:layout => :header})
 end
 
 get("/dice/2/6") do
   first_die = rand(1..6)
   second_die = rand(1..6)
   sum = first_die + second_die
-	
-  outcome = "You rolled a #{first_die} and a #{second_die} for a total of #{sum}."
-	
-  "<style>
-  .navbar {
-    display: flex;
-    justify-content: space-around;
-  }
-  </style>
-  <div class='navbar'>
-    <div><a href='/dicemenu'>Home</a></div>
-    <div><a href='/dice/2/6'>2d6</a></div>
-    <div><a href='/dice/2/10'>2d10</a></div>
-    <div><a href='/dice/1/20'>1d20</a></div>
-    <div><a href='/dice/5/4'>5d4</a></div>
-  </div>
-  <h1>2d6</h1>
-  <p>#{outcome}</p>"
+	@rolls = []
+  @rolls.push(first_die)
+  @rolls.push(second_die)
+  @outcome = "You rolled a #{first_die} and a #{second_die} for a total of #{sum}."
+	@header1 = "2d6"
+
+  erb(:generic, {:layout => :header})
 end
 
 get("/dice/2/10") do
   first_die = rand(1..10)
   second_die = rand(1..10)
+
   sum = first_die + second_die
-	
-  outcome = "You rolled a #{first_die} and a #{second_die} for a total of #{sum}."
-	
-  "<style>
-  .navbar {
-    display: flex;
-    justify-content: space-around;
-  }
-  </style>
-  <div class='navbar'>
-    <div><a href='/dicemenu'>Home</a></div>
-    <div><a href='/dice/2/6'>2d6</a></div>
-    <div><a href='/dice/2/10'>2d10</a></div>
-    <div><a href='/dice/1/20'>1d20</a></div>
-    <div><a href='/dice/5/4'>5d4</a></div>
-  </div>
-  <h1>2d10</h1>
-  <p>#{outcome}</p>"
+
+	@rolls = []
+  @rolls.push(first_die)
+  @rolls.push(second_die)
+
+  @outcome = "A total of #{sum}."
+  @header1 = "2d10"
+
+  erb(:generic, {:layout => :header})
 end
 
 get("/dice/1/20") do
-  die = rand(1..20)
+  @die = rand(1..20)
+  
+  @rolls = []
+  @rolls.push(@die)
+  
+  @outcome = "You have rolled a a d20 dice and got #{@die}."
+  @header1 = "1d20"
 
-  outcome = "You have rolled a a d20 dice and got #{die}."
-
-  "<style>
-  .navbar {
-    display: flex;
-    justify-content: space-around;
-  }
-  </style>
-  <div class='navbar'>
-    <div><a href='/dicemenu'>Home</a></div>
-    <div><a href='/dice/2/6'>2d6</a></div>
-    <div><a href='/dice/2/10'>2d10</a></div>
-    <div><a href='/dice/1/20'>1d20</a></div>
-    <div><a href='/dice/5/4'>5d4</a></div>
-  </div>
-  <h1>1d20</h1>
-  <p>#{outcome}</p>"
+  erb(:one_twenty, {:layout => :header})
 end
 
 get("/dice/5/4") do
-  die1 = rand(1..4)
-  die2 = rand(1..4)
-  die3 = rand(1..4)
-  die4 = rand(1..4)
-  die5 = rand(1..4)
-  sum = die1 + die2 + die3 + die4 + die5
+  @rolls = []
+  sum = 0
+  5.times do 
+    die = rand(1..4)
+    sum += die
+    @rolls.push(die)
+  end
+  @header1 = "5d4"
+  @outcome = "A grand total of #{sum}."
 
-  outcome = "You have rolled #{die1}, #{die2}, #{die3}, #{die4}, and #{die5} for a grand total of #{sum}."
-
-  "<style>
-  .navbar {
-    display: flex;
-    justify-content: space-around;
-  }
-  </style>
-  <div class='navbar'>
-    <div><a href='/dicemenu'>Home</a></div>
-    <div><a href='/dice/2/6'>2d6</a></div>
-    <div><a href='/dice/2/10'>2d10</a></div>
-    <div><a href='/dice/1/20'>1d20</a></div>
-    <div><a href='/dice/5/4'>5d4</a></div>
-  </div>
-  <h1>5d4</h1>
-  <p>#{outcome}</p>"
+  erb(:generic, {:layout => :header})
 end
